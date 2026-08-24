@@ -133,9 +133,11 @@
     .role-empty { font-size: .85rem; color: var(--muted); }\
     .chart-tooltip { position: absolute; pointer-events: none; background: var(--ink); color: var(--bg); font-family: "IBM Plex Mono", ui-monospace, monospace; font-size: .72rem; padding: .3rem .55rem; border-radius: 6px; transform: translate(-50%, -100%); white-space: nowrap; z-index: 5; }\
     .stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1rem; margin-bottom: 1rem; }\
-    .stat { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 1.1rem 1.2rem; box-shadow: var(--shadow); }\
-    .stat .label { font-family: "IBM Plex Mono", ui-monospace, monospace; font-size: .68rem; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); margin-bottom: .5rem; }\
-    .stat .value { font-family: "Fraunces", Georgia, serif; font-size: 2rem; font-weight: 600; font-variant-numeric: tabular-nums; line-height: 1; display: flex; align-items: baseline; gap: .35rem; }\
+    .stat { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 1.1rem 1.2rem; box-shadow: var(--shadow); transition: background-color .15s ease, border-color .15s ease; }\
+    .stat:has(.delta.warn) { background: var(--brick-soft); border-color: var(--brick); }\
+    .stat:has(.delta.warn) .delta.warn { background: var(--surface); }\
+    .stat .label { font-family: "IBM Plex Mono", ui-monospace, monospace; font-size: .68rem; font-weight: 500; letter-spacing: .09em; text-transform: uppercase; color: var(--muted); margin-bottom: .55rem; }\
+    .stat .value { font-family: "Fraunces", Georgia, serif; font-size: 2.15rem; font-weight: 600; letter-spacing: -.02em; font-variant-numeric: tabular-nums; line-height: 1; display: flex; align-items: baseline; gap: .35rem; }\
     .stat .value small { font-family: "IBM Plex Sans", sans-serif; font-size: .95rem; font-weight: 500; color: var(--muted); }\
     .stat .delta { margin-top: .5rem; font-size: .78rem; display: inline-flex; align-items: center; gap: .3rem; padding: .15rem .5rem; border-radius: 999px; font-weight: 500; }\
     .delta.up { background: var(--accent-soft); color: var(--accent-strong); }\
@@ -147,20 +149,22 @@
     .insights-head .sub { font-size: .8rem; color: var(--muted); margin: .15rem 0 0; }\
     .insights-badge { font-family: "IBM Plex Mono", ui-monospace, monospace; font-size: .65rem; letter-spacing: .06em; text-transform: uppercase; color: var(--accent-strong); background: var(--accent-soft); padding: .25rem .55rem; border-radius: 999px; white-space: nowrap; }\
     .insight-list { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: .7rem; }\
-    .insight { display: flex; gap: .7rem; padding: .8rem .85rem; border-radius: 8px; background: var(--surface-2); border: 1px solid var(--border); }\
-    .insight .stripe { width: 3px; border-radius: 2px; flex-shrink: 0; background: var(--accent); }\
-    .insight.tone-good .stripe { background: var(--accent); }\
-    .insight.tone-warn .stripe { background: var(--brick); }\
-    .insight.tone-caution .stripe { background: var(--amber); }\
-    .insight.tone-neutral .stripe { background: var(--muted); }\
+    .insight { display: flex; gap: .7rem; padding: .85rem .95rem; border-radius: 10px; background: var(--surface); border: 1px solid var(--border); border-left: 4px solid var(--border); box-shadow: var(--shadow); }\
+    .insight .stripe { display: none; }\
+    .insight.tone-good { border-left-color: var(--accent); }\
+    .insight.tone-warn { border-left-color: var(--brick); }\
+    .insight.tone-caution { border-left-color: var(--amber); }\
+    .insight.tone-neutral { border-left-color: var(--muted); }\
     .insight .body { display: flex; flex-direction: column; gap: .3rem; }\
-    .insight .tag { font-family: "IBM Plex Mono", ui-monospace, monospace; font-size: .64rem; letter-spacing: .07em; text-transform: uppercase; color: var(--muted); }\
+    .insight .tag { font-family: "IBM Plex Mono", ui-monospace, monospace; font-size: .64rem; font-weight: 500; letter-spacing: .07em; text-transform: uppercase; color: var(--muted); }\
     .insight .text { font-size: .85rem; line-height: 1.4; }\
     .insight .text strong { font-weight: 600; }\
     .card { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 1.3rem 1.4rem 1.4rem; box-shadow: var(--shadow); margin-bottom: 1rem; }\
     .card h2 { font-family: "IBM Plex Sans", sans-serif; font-size: .95rem; font-weight: 600; margin: 0 0 .2rem; }\
     .card .sub { font-size: .8rem; color: var(--muted); margin: 0 0 1rem; }\
-    .update-card { margin-bottom: 1rem; }\
+    .update-card { margin-bottom: 1rem; background: var(--surface-2); box-shadow: none; }\
+    .update-card h2 { color: var(--muted); font-weight: 500; }\
+    .update-card .file-btn { background: var(--surface); }\
     .import-row { display: flex; align-items: center; gap: .7rem; flex-wrap: wrap; margin-top: .8rem; }\
     .btn, .btn-ghost, .file-btn { font-family: "IBM Plex Sans", sans-serif; font-size: .82rem; font-weight: 500; padding: .5rem 1rem; border-radius: 7px; cursor: pointer; border: 1px solid transparent; display: inline-flex; align-items: center; gap: .4rem; }\
     .btn { background: var(--accent); color: #fff; }\
@@ -195,8 +199,11 @@
     .table-wrap { overflow-x: auto; }\
     table.courses { width: 100%; border-collapse: collapse; font-size: .82rem; min-width: 720px; }\
     table.courses th { text-align: left; font-family: "IBM Plex Mono", ui-monospace, monospace; font-size: .64rem; letter-spacing: .06em; text-transform: uppercase; color: var(--muted); font-weight: 500; padding: 0 .6rem .5rem 0; border-bottom: 1px solid var(--border); white-space: nowrap; }\
-    table.courses td { padding: .55rem .6rem .55rem 0; border-bottom: 1px solid var(--border); vertical-align: middle; }\
+    table.courses th:nth-child(4), table.courses th:nth-child(5), table.courses th:nth-child(6), table.courses th:nth-child(7) { text-align: right; }\
+    table.courses td { padding: .65rem .6rem .65rem 0; border-bottom: 1px solid var(--border); vertical-align: middle; }\
     table.courses tr:last-child td { border-bottom: none; }\
+    table.courses tbody tr { transition: background-color .15s ease; }\
+    table.courses tbody tr:hover { background: var(--surface-2); }\
     .course-cell .name { font-weight: 500; }\
     .course-cell .dates { font-family: "IBM Plex Mono", ui-monospace, monospace; font-size: .7rem; color: var(--muted); display: block; margin-top: .1rem; }\
     .tag { display: inline-block; font-size: .7rem; padding: .15rem .5rem; border-radius: 999px; background: var(--surface-2); color: var(--muted); white-space: nowrap; }\
@@ -205,10 +212,10 @@
     .status.tone-caution { background: var(--amber-soft); color: var(--amber); }\
     .status.tone-good { background: var(--accent-soft); color: var(--accent-strong); }\
     .status.tone-neutral { background: var(--surface-2); color: var(--muted); }\
-    .completion-cell { display: flex; align-items: center; gap: .5rem; }\
+    .completion-cell { display: flex; align-items: center; justify-content: flex-end; gap: .5rem; }\
     .completion-cell .bar-track { width: 64px; flex-shrink: 0; }\
     .completion-cell .pct { font-family: "IBM Plex Mono", ui-monospace, monospace; font-variant-numeric: tabular-nums; color: var(--muted); font-size: .74rem; }\
-    .num-cell { font-variant-numeric: tabular-nums; white-space: nowrap; }\
+    .num-cell { font-variant-numeric: tabular-nums; white-space: nowrap; text-align: right; }\
     .bar-track { height: 7px; border-radius: 999px; background: var(--surface-2); overflow: hidden; }\
     .bar-fill { height: 100%; border-radius: 999px; background: var(--accent); }\
     .bar-fill.caution { background: var(--amber); }\
