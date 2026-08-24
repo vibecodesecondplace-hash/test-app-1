@@ -89,6 +89,11 @@
     .top-links { display: flex; align-items: center; justify-content: center; gap: 1.75rem; flex-wrap: wrap; margin: 1.5rem 0 2.25rem; padding-top: 1.1rem; border-top: 1px solid var(--border); }\
     .top-links a { color: var(--muted); text-decoration: none; font-size: .95rem; font-weight: 500; letter-spacing: .005em; transition: color .15s ease; }\
     .top-links a:hover, .top-links a:focus-visible { color: var(--accent-strong); }\
+    .section-nav { position: sticky; top: 0; z-index: 15; display: flex; gap: 1.6rem; justify-content: center; flex-wrap: wrap; background: var(--bg); padding: .6rem 0; margin: 0 0 1.4rem; border-bottom: 1px solid var(--border); }\
+    .section-nav a { font-family: "IBM Plex Mono", ui-monospace, monospace; font-size: .72rem; letter-spacing: .06em; text-transform: uppercase; color: var(--muted); text-decoration: none; padding: .3rem .1rem; }\
+    .section-nav a:hover, .section-nav a:focus-visible { color: var(--accent-strong); }\
+    html { scroll-behavior: smooth; }\
+    @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }\
     .soon-badge { font-family: "IBM Plex Mono", ui-monospace, monospace; font-size: .58rem; letter-spacing: .05em; text-transform: uppercase; background: var(--surface-2); color: var(--muted); padding: .1rem .4rem; border-radius: 999px; margin-left: .4rem; vertical-align: middle; }\
     header.top.main-header-row { display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; gap: 1rem; }\
     .main-header-row .header-left { justify-self: start; }\
@@ -165,6 +170,10 @@
     .update-card { margin-bottom: 1rem; background: var(--surface-2); box-shadow: none; }\
     .update-card h2 { color: var(--muted); font-weight: 500; }\
     .update-card .file-btn { background: var(--surface); }\
+    .admin-drawer summary { cursor: pointer; font-family: "Fraunces", Georgia, serif; font-weight: 600; font-size: .95rem; color: var(--ink); }\
+    .admin-drawer summary:hover, .admin-drawer summary:focus-visible { color: var(--accent-strong); }\
+    .admin-drawer .admin-drawer-body { margin-top: 1rem; }\
+    .admin-drawer .admin-drawer-body h2 { margin: 0 0 .2rem; }\
     .import-row { display: flex; align-items: center; gap: .7rem; flex-wrap: wrap; margin-top: .8rem; }\
     .btn, .btn-ghost, .file-btn { font-family: "IBM Plex Sans", sans-serif; font-size: .82rem; font-weight: 500; padding: .5rem 1rem; border-radius: 7px; cursor: pointer; border: 1px solid transparent; display: inline-flex; align-items: center; gap: .4rem; }\
     .btn { background: var(--accent); color: #fff; }\
@@ -204,6 +213,10 @@
     table.courses tr:last-child td { border-bottom: none; }\
     table.courses tbody tr { transition: background-color .15s ease; }\
     table.courses tbody tr:hover { background: var(--surface-2); }\
+    .catalog-toggle-btn { display: block; margin: 1.1rem auto 0; padding: .6rem 1.5rem; border-radius: 8px; border: 1px solid var(--accent); background: var(--accent-soft); color: var(--accent-strong); font-family: "IBM Plex Sans", sans-serif; font-size: .85rem; font-weight: 600; cursor: pointer; transition: background-color .15s ease, color .15s ease; }\
+    .catalog-toggle-btn:hover, .catalog-toggle-btn:focus-visible { background: var(--accent); color: #fff; }\
+    #courseRows tr { animation: catalogRowIn .18s ease; }\
+    @keyframes catalogRowIn { from { opacity: 0; } to { opacity: 1; } }\
     .course-cell .name { font-weight: 500; }\
     .course-cell .dates { font-family: "IBM Plex Mono", ui-monospace, monospace; font-size: .7rem; color: var(--muted); display: block; margin-top: .1rem; }\
     .tag { display: inline-block; font-size: .7rem; padding: .15rem .5rem; border-radius: 999px; background: var(--surface-2); color: var(--muted); white-space: nowrap; }\
@@ -229,6 +242,13 @@
     @media (max-width: 700px) { .row-2 { grid-template-columns: 1fr; } }\
     @media (max-width: 780px) { .stats { grid-template-columns: repeat(2, 1fr); } .period { text-align: left; } .hero-hub-stops { grid-template-columns: repeat(2, 1fr); row-gap: 2rem; } }\
     @media (max-width: 480px) { .hero-hub-stops { grid-template-columns: 1fr; } .hub-desc { max-width: none; } }\
+    #view-dashboard header.top { margin-bottom: 1.3rem; }\
+    #view-dashboard .card, #view-dashboard .insights { padding: 1rem 1.25rem 1.1rem; margin-bottom: .8rem; }\
+    #view-dashboard .stat { padding: .85rem 1rem; }\
+    #view-dashboard .insight { padding: .7rem .85rem; }\
+    #view-dashboard .row-2 { margin-bottom: .8rem; }\
+    #view-dashboard table.courses td { padding: .5rem .6rem .5rem 0; }\
+    #view-dashboard .admin-drawer { padding: .9rem 1.25rem; }\
   ';
 
   // =====================================================================
@@ -378,8 +398,14 @@
           <div class="period">As of <strong>' + fmtDate(new Date()) + '</strong><br>Synthetic sample data for illustration</div>\
         </header>\
         ' + topLinksDashboard + '\
+        <nav class="section-nav" aria-label="Dashboard sections">\
+          <a href="#stats">Overview</a>\
+          <a href="#insights-section">Insights</a>\
+          <a href="#analytics-section">Analytics</a>\
+          <a href="#catalog-section">Course Catalog</a>\
+        </nav>\
         <section class="stats" id="stats"></section>\
-        <section class="insights">\
+        <section class="insights" id="insights-section">\
           <div class="insights-head">\
             <div>\
               <h2>Insights</h2>\
@@ -390,7 +416,7 @@
           <div class="insight-list" id="insightList"></div>\
           <p class="list-note" id="insightsNote" hidden></p>\
         </section>\
-        <div class="card">\
+        <div class="card" id="analytics-section">\
           <h2>Training hours delivered</h2>\
           <p class="sub">Estimated hours consumed per month, across the dataset\'s date range</p>\
           <div class="chart-wrap">\
@@ -413,7 +439,7 @@
             <p class="list-note" id="categoryNote" hidden></p>\
           </div>\
         </div>\
-        <div class="card">\
+        <div class="card" id="catalog-section">\
           <h2>Course catalog</h2>\
           <p class="sub">All courses — completion is Completed/Not Completed only</p>\
           <div class="table-wrap">\
@@ -422,15 +448,18 @@
               <tbody id="courseRows"></tbody>\
             </table>\
           </div>\
-          <p class="list-note" id="courseTableNote" hidden></p>\
+          <button class="catalog-toggle-btn" id="catalogToggleBtn" type="button" hidden></button>\
         </div>\
-        <section class="card update-card">\
-          <h2>Update dataset</h2>\
-          <div class="import-row">\
-            <button class="file-btn" id="openImportBtn" type="button">Choose CSV file</button>\
-            <button class="btn-ghost" id="templateBtn" type="button">Download current data as CSV template</button>\
+        <details class="card update-card admin-drawer">\
+          <summary>Admin Utilities</summary>\
+          <div class="admin-drawer-body">\
+            <h2>Update dataset</h2>\
+            <div class="import-row">\
+              <button class="file-btn" id="openImportBtn" type="button">Choose CSV file</button>\
+              <button class="btn-ghost" id="templateBtn" type="button">Download current data as CSV template</button>\
+            </div>\
           </div>\
-        </section>\
+        </details>\
         <footer class="note">Synthetic sample data, generated for demonstration purposes. Insights are computed with rule-based logic over the course dataset, not a live model call.</footer>\
         ' + copyright + '\
       </div>\
@@ -802,6 +831,7 @@
 
   var monthChartData = [];
   var TABLE_DATE_FMT = { month: 'short', day: 'numeric' };
+  var catalogExpanded = false;
 
   function renderCourseRow(c) {
     var completionDisplay;
@@ -922,10 +952,19 @@
     labelsEl.innerHTML = months.map(function (mo) { return '<span>' + mo.label + '</span>'; }).join('');
 
     // ---- course table ----
-    var MAX_ROWS = 15;
+    var MAX_ROWS = 5;
     var rowsEl = document.getElementById('courseRows');
-    rowsEl.innerHTML = courses.slice(0, MAX_ROWS).map(renderCourseRow).join('');
-    setListNote('courseTableNote', MAX_ROWS, courses.length, 'course runs', '#all-courses');
+    var visibleCourses = catalogExpanded ? courses : courses.slice(0, MAX_ROWS);
+    rowsEl.innerHTML = visibleCourses.map(renderCourseRow).join('');
+    var catalogToggleBtn = document.getElementById('catalogToggleBtn');
+    if (catalogToggleBtn) {
+      if (courses.length > MAX_ROWS) {
+        catalogToggleBtn.hidden = false;
+        catalogToggleBtn.textContent = catalogExpanded ? 'Collapse Catalog' : 'Show All Courses (' + courses.length + ')';
+      } else {
+        catalogToggleBtn.hidden = true;
+      }
+    }
 
     var allRowsEl = document.getElementById('allCourseRows');
     if (allRowsEl) allRowsEl.innerHTML = courses.map(renderCourseRow).join('');
@@ -1324,6 +1363,37 @@
     });
   }
   initImportModal();
+
+  // =====================================================================
+  // Course catalog expand/collapse toggle
+  // =====================================================================
+
+  function initCatalogToggle() {
+    var btn = document.getElementById('catalogToggleBtn');
+    if (!btn) return;
+    btn.addEventListener('click', function () {
+      catalogExpanded = !catalogExpanded;
+      renderAll(STATE);
+    });
+  }
+  initCatalogToggle();
+
+  // =====================================================================
+  // Dashboard section anchor nav — intercepted so it scrolls in place
+  // instead of changing location.hash (which the router treats as a route)
+  // =====================================================================
+
+  function initSectionNav() {
+    var reduceMotion = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
+    document.querySelectorAll('.section-nav a').forEach(function (a) {
+      a.addEventListener('click', function (e) {
+        e.preventDefault();
+        var target = document.getElementById(a.getAttribute('href').slice(1));
+        if (target) target.scrollIntoView({ behavior: reduceMotion ? 'auto' : 'smooth', block: 'start' });
+      });
+    });
+  }
+  initSectionNav();
 
   // =====================================================================
   // Import UI
