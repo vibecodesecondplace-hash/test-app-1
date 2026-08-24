@@ -129,12 +129,17 @@
     .role-ghost { position: absolute; inset: 0; display: flex; align-items: center; padding: .55rem .75rem; border: 1px solid var(--border); border-radius: 7px; background: var(--surface); font-family: "IBM Plex Sans", sans-serif; font-size: .88rem; white-space: pre; overflow: hidden; pointer-events: none; color: var(--muted); }\
     .role-ghost .typed { color: transparent; }\
     .role-input-wrap .text-input { position: relative; width: 100%; background: transparent; border-color: transparent; }\
+    .role-chip-row { display: flex; align-items: center; gap: .5rem; flex-wrap: wrap; margin-top: .8rem; }\
+    .role-chip { font-family: "IBM Plex Sans", sans-serif; font-size: .8rem; font-weight: 500; padding: .4rem .9rem; border-radius: 999px; border: 1px solid var(--border); background: var(--surface-2); color: var(--ink); cursor: pointer; transition: background-color .15s ease, border-color .15s ease, color .15s ease; }\
+    .role-chip:hover, .role-chip:focus-visible { background: var(--accent-soft); border-color: var(--accent); color: var(--accent-strong); }\
     .role-results { margin-top: 1.3rem; }\
     .role-result-role { font-weight: 600; margin-bottom: .7rem; }\
-    .role-course-list { display: flex; flex-direction: column; gap: .5rem; }\
-    .role-course-item { display: flex; justify-content: space-between; align-items: center; gap: .75rem; padding: .65rem .85rem; border-radius: 8px; background: var(--surface-2); border: 1px solid var(--border); }\
+    .role-course-list { display: flex; flex-direction: column; gap: .6rem; }\
+    .role-course-item { display: flex; justify-content: space-between; align-items: center; gap: .75rem; padding: .75rem .95rem; border-radius: 10px; background: var(--surface); border: 1px solid var(--border); box-shadow: var(--shadow); transition: border-color .15s ease, transform .15s ease; }\
+    .role-course-item:hover { border-color: var(--accent); transform: translateY(-1px); }\
     .role-course-item .name { font-weight: 500; font-size: .88rem; }\
-    .role-course-item .meta { font-size: .74rem; color: var(--muted); font-family: "IBM Plex Mono", ui-monospace, monospace; white-space: nowrap; }\
+    .role-course-meta { display: flex; align-items: center; gap: .6rem; flex-shrink: 0; }\
+    .role-hours { font-size: .74rem; color: var(--muted); font-family: "IBM Plex Mono", ui-monospace, monospace; font-variant-numeric: tabular-nums; white-space: nowrap; }\
     .role-empty { font-size: .85rem; color: var(--muted); }\
     .chart-tooltip { position: absolute; pointer-events: none; background: var(--ink); color: var(--bg); font-family: "IBM Plex Mono", ui-monospace, monospace; font-size: .72rem; padding: .3rem .55rem; border-radius: 6px; transform: translate(-50%, -100%); white-space: nowrap; z-index: 5; }\
     .stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1rem; margin-bottom: 1rem; }\
@@ -357,6 +362,7 @@
             </div>\
             <button class="btn" type="submit">Search</button>\
           </form>\
+          <div class="role-chip-row" id="roleChipRow" aria-label="Quick role search"></div>\
           <div class="role-results" id="roleResults"></div>\
         </div>\
         <footer class="note">Synthetic sample data, generated for demonstration purposes.</footer>\
@@ -1230,6 +1236,8 @@
     'New Hire': ['Information Security Awareness', 'Data Privacy & GDPR Refresher', 'Warehouse Safety Certification']
   };
 
+  var QUICK_ROLE_CHIPS = Object.keys(ROLE_COURSES).slice(0, 4);
+
   function findRoleMatches(query) {
     var q = query.trim().toLowerCase();
     if (!q) return [];
@@ -1261,8 +1269,8 @@
     (STATE.courses || []).forEach(function (c) { byName[c.name] = c; });
     var items = ROLE_COURSES[role].map(function (name) {
       var c = byName[name];
-      var meta = c ? (c.category + ' · ' + c.hours + 'h') : '';
-      return '<div class="role-course-item"><span class="name">' + escapeHtml(name) + '</span><span class="meta">' + escapeHtml(meta) + '</span></div>';
+      var meta = c ? '<span class="tag">' + escapeHtml(c.category) + '</span><span class="role-hours">' + c.hours + 'h</span>' : '';
+      return '<div class="role-course-item"><span class="name">' + escapeHtml(name) + '</span><span class="role-course-meta">' + meta + '</span></div>';
     }).join('');
     resultsEl.innerHTML = '<p class="role-result-role">Required training for ' + escapeHtml(role) + '</p><div class="role-course-list">' + items + '</div>';
   }
@@ -1291,11 +1299,31 @@
     renderRoleResults('');
   }
 
+  function renderRoleChips() {
+    var row = document.getElementById('roleChipRow');
+    var input = document.getElementById('roleInput');
+    var ghost = document.getElementById('roleGhost');
+    if (!row || !input || !ghost) return;
+    row.innerHTML = QUICK_ROLE_CHIPS.map(function (role) {
+      return '<button type="button" class="role-chip" data-role="' + escapeHtml(role) + '">' + escapeHtml(role) + '</button>';
+    }).join('');
+    row.querySelectorAll('.role-chip').forEach(function (chip) {
+      chip.addEventListener('click', function () {
+        input.value = chip.getAttribute('data-role');
+        updateRoleGhost(input, ghost);
+        renderRoleResults(input.value);
+        input.focus();
+      });
+    });
+  }
+
   function initRoleSearch() {
     var form = document.getElementById('roleSearchForm');
     var input = document.getElementById('roleInput');
     var ghost = document.getElementById('roleGhost');
     if (!form || !input || !ghost) return;
+
+    renderRoleChips();
 
     // Always start from a blank box on load — never restore a browser-cached value.
     resetRoleSearch();
