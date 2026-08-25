@@ -44,6 +44,7 @@
       --ink: #182226; --muted: #5c6b6c; --accent: #2f5d62; --accent-strong: #1e4247;\
       --accent-soft: #dbe9e7; --amber: #b9791a; --amber-soft: #f3e4c8; --brick: #a8483f;\
       --brick-soft: #f1dbd7; --shadow: 0 1px 2px rgba(24,34,38,.04), 0 8px 24px -12px rgba(24,34,38,.12);\
+      --shadow-lift: 0 4px 10px rgba(24,34,38,.08), 0 16px 36px -14px rgba(24,34,38,.2);\
     }\
     @media (prefers-color-scheme: dark) {\
       :root:not([data-theme="light"]) {\
@@ -51,6 +52,7 @@
         --ink: #e9eeee; --muted: #93a3a4; --accent: #6bab9f; --accent-strong: #8ec3b7;\
         --accent-soft: #223938; --amber: #d9a54c; --amber-soft: #35301e; --brick: #d18077;\
         --brick-soft: #362521; --shadow: 0 1px 2px rgba(0,0,0,.3), 0 8px 24px -12px rgba(0,0,0,.5);\
+        --shadow-lift: 0 4px 10px rgba(0,0,0,.35), 0 16px 36px -14px rgba(0,0,0,.6);\
       }\
     }\
     :root[data-theme="dark"] {\
@@ -65,6 +67,7 @@
     .page { max-width: 1200px; margin: 0 auto; padding: 2.5rem 1.75rem 4rem; }\
     header.top { display: flex; justify-content: space-between; align-items: flex-end; gap: 1.5rem; flex-wrap: wrap; margin-bottom: 2rem; }\
     h1 { font-family: "Fraunces", Georgia, serif; font-weight: 600; font-size: clamp(1.9rem, 3vw, 2.5rem); margin: 0; text-wrap: balance; letter-spacing: -.01em; }\
+    .page-brand { font-family: "IBM Plex Mono", ui-monospace, monospace; font-size: .68rem; font-weight: 500; letter-spacing: .08em; text-transform: uppercase; color: var(--accent-strong); margin: 0 0 .35rem; }\
     .period { font-size: .9rem; color: var(--muted); text-align: right; }\
     .period strong { color: var(--ink); font-weight: 600; }\
     .back-link { color: var(--accent-strong); text-decoration: none; font-weight: 500; }\
@@ -137,15 +140,20 @@
     .role-chip-row { display: flex; align-items: center; gap: .5rem; flex-wrap: wrap; margin-top: .8rem; }\
     .role-chip { font-family: "IBM Plex Sans", sans-serif; font-size: .8rem; font-weight: 500; padding: .4rem .9rem; border-radius: 999px; border: 1px solid var(--border); background: var(--surface-2); color: var(--ink); cursor: pointer; transition: background-color .15s ease, border-color .15s ease, color .15s ease; }\
     .role-chip:hover, .role-chip:focus-visible { background: var(--accent-soft); border-color: var(--accent); color: var(--accent-strong); }\
+    .role-chip.active { background: var(--accent); border-color: var(--accent); color: #fff; }\
+    .role-chip.active:hover, .role-chip.active:focus-visible { background: var(--accent-strong); border-color: var(--accent-strong); color: #fff; }\
     .role-results { margin-top: 1.3rem; }\
     .role-result-role { font-weight: 600; margin-bottom: .7rem; }\
     .role-course-list { display: flex; flex-direction: column; gap: .6rem; }\
-    .role-course-item { display: flex; justify-content: space-between; align-items: center; gap: .75rem; padding: .75rem .95rem; border-radius: 10px; background: var(--surface); border: 1px solid var(--border); box-shadow: var(--shadow); transition: border-color .15s ease, transform .15s ease; }\
-    .role-course-item:hover { border-color: var(--accent); transform: translateY(-1px); }\
+    .role-course-item { display: flex; justify-content: space-between; align-items: center; gap: .75rem; padding: .75rem .95rem; border-radius: 10px; background: var(--surface); border: 1px solid var(--border); box-shadow: var(--shadow); transition: border-color .15s ease, transform .15s ease, box-shadow .15s ease; }\
+    .role-course-item:hover { border-color: var(--accent); transform: translateY(-2px); box-shadow: var(--shadow-lift); }\
     .role-course-item .name { font-weight: 500; font-size: .88rem; }\
     .role-course-meta { display: flex; align-items: center; gap: .6rem; flex-shrink: 0; }\
     .role-hours { font-size: .74rem; color: var(--muted); font-family: "IBM Plex Mono", ui-monospace, monospace; font-variant-numeric: tabular-nums; white-space: nowrap; }\
     .role-empty { font-size: .85rem; color: var(--muted); }\
+    .role-empty-state { text-align: center; padding: 2.2rem 1rem; }\
+    .role-empty-title { font-size: .92rem; font-weight: 500; color: var(--ink); margin: 0 0 .35rem; }\
+    .role-empty-hint { font-size: .82rem; color: var(--muted); margin: 0; }\
     .chart-tooltip { position: absolute; pointer-events: none; background: var(--ink); color: var(--bg); font-family: "IBM Plex Mono", ui-monospace, monospace; font-size: .72rem; padding: .3rem .55rem; border-radius: 6px; transform: translate(-50%, -100%); white-space: nowrap; z-index: 5; }\
     .stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1rem; margin-bottom: 1rem; }\
     .stat { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 1.1rem 1.2rem; box-shadow: var(--shadow); transition: background-color .15s ease, border-color .15s ease; }\
@@ -231,8 +239,8 @@
     .course-cell .dates { font-family: "IBM Plex Mono", ui-monospace, monospace; font-size: .7rem; color: var(--muted); display: block; margin-top: .1rem; }\
     .tag { display: inline-block; font-size: .7rem; padding: .15rem .5rem; border-radius: 999px; background: var(--surface-2); color: var(--muted); white-space: nowrap; }\
     .status { display: inline-block; font-size: .7rem; font-weight: 500; padding: .2rem .55rem; border-radius: 999px; white-space: nowrap; }\
-    .status.tone-warn { background: var(--brick-soft); color: var(--brick); }\
-    .status.tone-caution { background: var(--amber-soft); color: var(--amber); }\
+    .status.tone-warn { background: var(--brick-soft); color: var(--brick); border: 1px solid var(--brick); font-weight: 600; }\
+    .status.tone-caution { background: var(--amber-soft); color: var(--amber); border: 1px solid var(--amber); font-weight: 600; }\
     .status.tone-good { background: var(--accent-soft); color: var(--accent-strong); }\
     .status.tone-neutral { background: var(--surface-2); color: var(--muted); }\
     .completion-cell { display: flex; align-items: center; justify-content: flex-end; gap: .5rem; }\
@@ -346,6 +354,7 @@
           <div class="header-left">\
             ' + nav + '\
             <div>\
+              <p class="page-brand">Meridian Academy</p>\
               <h1>What are my courses?</h1>\
             </div>\
           </div>\
@@ -397,6 +406,7 @@
           <div class="header-left">\
             ' + nav + '\
             <div>\
+              <p class="page-brand">Meridian Academy</p>\
               <h1>Training Dashboard</h1>\
             </div>\
           </div>\
@@ -1259,7 +1269,10 @@
     }
     var matches = findRoleMatches(query);
     if (matches.length === 0) {
-      resultsEl.innerHTML = '<p class="role-empty">No matching role found for "' + escapeHtml(query) + '". Try one of the suggestions in the box above.</p>';
+      resultsEl.innerHTML = '<div class="role-empty-state">' +
+        '<p class="role-empty-title">No matching role found for "' + escapeHtml(query) + '"</p>' +
+        '<p class="role-empty-hint">Try clicking one of the role chips above, or check your spelling.</p>' +
+      '</div>';
       return;
     }
     if (matches.length > 1) {
@@ -1292,6 +1305,12 @@
     return match;
   }
 
+  function updateChipActiveState(role) {
+    document.querySelectorAll('.role-chip').forEach(function (chip) {
+      chip.classList.toggle('active', !!role && chip.getAttribute('data-role') === role);
+    });
+  }
+
   function resetRoleSearch() {
     var input = document.getElementById('roleInput');
     var ghost = document.getElementById('roleGhost');
@@ -1299,6 +1318,7 @@
     input.value = '';
     updateRoleGhost(input, ghost);
     renderRoleResults('');
+    updateChipActiveState(null);
   }
 
   function renderRoleChips() {
@@ -1314,6 +1334,7 @@
         input.value = chip.getAttribute('data-role');
         updateRoleGhost(input, ghost);
         renderRoleResults(input.value);
+        updateChipActiveState(chip.getAttribute('data-role'));
         input.focus();
       });
     });
@@ -1330,7 +1351,12 @@
     // Always start from a blank box on load — never restore a browser-cached value.
     resetRoleSearch();
 
-    input.addEventListener('input', function () { updateRoleGhost(input, ghost); });
+    input.addEventListener('input', function () {
+      updateRoleGhost(input, ghost);
+      var typed = input.value.trim().toLowerCase();
+      var exact = Object.keys(ROLE_COURSES).find(function (r) { return r.toLowerCase() === typed; });
+      updateChipActiveState(exact || null);
+    });
     input.addEventListener('keydown', function (e) {
       if (e.key !== 'Tab' || e.shiftKey) return;
       var match = bestRoleMatch(input.value);
@@ -1338,9 +1364,15 @@
         e.preventDefault();
         input.value = match;
         updateRoleGhost(input, ghost);
+        updateChipActiveState(match);
       }
     });
-    form.addEventListener('submit', function (e) { e.preventDefault(); renderRoleResults(input.value); });
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();
+      renderRoleResults(input.value);
+      var matches = findRoleMatches(input.value);
+      updateChipActiveState(matches.length === 1 ? matches[0] : null);
+    });
   }
   initRoleSearch();
 
