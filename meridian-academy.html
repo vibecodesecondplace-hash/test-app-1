@@ -1,4 +1,4 @@
-<title>Meridian Training Ops</title>
+<title>Meridian Academy</title>
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
 <meta http-equiv="Pragma" content="no-cache">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,500;0,9..144,600;1,9..144,500&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
@@ -82,6 +82,7 @@
     .nav-menu a { padding: .55rem .7rem; border-radius: 6px; color: var(--ink); text-decoration: none; font-size: .92rem; }\
     .nav-menu a:hover, .nav-menu a:focus-visible { background: var(--surface-2); }\
     .nav-menu a.nav-heading { font-weight: 600; }\
+    .nav-menu a.active { color: var(--accent-strong); background: var(--accent-soft); font-weight: 600; }\
     .nav-menu a.nav-sub-link { padding-left: 1.5rem; font-size: .88rem; color: var(--muted); }\
     .nav-menu a.nav-sub-link:hover, .nav-menu a.nav-sub-link:focus-visible { color: var(--ink); }\
     .nav-divider { height: 1px; background: var(--border); margin: .35rem .2rem; }\
@@ -103,18 +104,28 @@
     .hero-hub-intro { position: relative; z-index: 1; text-align: center; max-width: 44ch; margin: 0 auto 2.3rem; }\
     .hero-hub-title { font-family: "Fraunces", Georgia, serif; font-weight: 600; font-size: clamp(1.35rem, 2.4vw, 1.65rem); margin: 0 0 .5rem; text-wrap: balance; letter-spacing: -.005em; }\
     .hero-hub-sub { font-size: .92rem; color: var(--muted); margin: 0; line-height: 1.5; }\
-    .hero-hub-stops { position: relative; z-index: 1; display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.5rem; }\
-    .hub-stop { display: flex; flex-direction: column; align-items: center; text-align: center; gap: .65rem; text-decoration: none; color: var(--ink); padding: .3rem; border-radius: 14px; transition: transform .15s ease; }\
-    .hub-stop:hover { transform: translateY(-3px); }\
-    .hub-stop:focus-visible { outline: 2px solid var(--accent); outline-offset: 4px; }\
-    .hub-icon { width: 56px; height: 56px; border-radius: 50%; display: flex; align-items: center; justify-content: center; background: var(--surface); border: 1.5px solid var(--accent); color: var(--accent-strong); box-shadow: var(--shadow); }\
-    .hub-icon svg { width: 26px; height: 26px; }\
-    .hub-label { font-weight: 600; font-size: .92rem; }\
-    .hub-label .soon-badge { margin-left: .35rem; }\
-    .hub-desc { font-size: .78rem; color: var(--muted); line-height: 1.4; max-width: 18ch; }\
-    .hub-stop-soon .hub-icon { border-color: var(--border); color: var(--muted); background: var(--surface-2); box-shadow: none; }\
-    .hub-stop-soon .hub-label { color: var(--muted); }\
-    .hub-stop-soon:hover { transform: none; }\
+    .hero-action-grid { position: relative; z-index: 1; display: grid; grid-template-columns: 1fr 1fr; gap: 1.75rem; }\
+    .hero-action-card { display: flex; flex-direction: column; align-items: flex-start; text-align: left; text-decoration: none; color: var(--ink); padding: 1.8rem 1.9rem; border-radius: 16px; transition: transform .15s ease, box-shadow .15s ease, border-color .15s ease, background-color .15s ease; }\
+    .hero-action-card:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }\
+    .hero-action-primary { background: var(--surface); border: 1px solid var(--accent); box-shadow: var(--shadow); }\
+    .hero-action-primary:hover, .hero-action-primary:focus-visible { transform: translateY(-3px); }\
+    .hero-action-secondary { background: transparent; border: 1px solid var(--border); }\
+    .hero-action-secondary:hover, .hero-action-secondary:focus-visible { border-color: var(--accent); background: var(--surface); }\
+    .hero-action-icon { width: 58px; height: 58px; border-radius: 14px; display: flex; align-items: center; justify-content: center; margin-bottom: 1.1rem; }\
+    .hero-action-icon svg { width: 28px; height: 28px; }\
+    .hero-action-primary .hero-action-icon { background: var(--accent); color: #fff; }\
+    .hero-action-secondary .hero-action-icon { background: var(--accent-soft); color: var(--accent-strong); }\
+    .hero-action-eyebrow { font-family: "IBM Plex Mono", ui-monospace, monospace; font-size: .68rem; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); margin-bottom: .5rem; }\
+    .hero-action-title { font-family: "Fraunces", Georgia, serif; font-weight: 600; font-size: 1.35rem; margin-bottom: .5rem; text-wrap: balance; letter-spacing: -.01em; }\
+    .hero-action-desc { font-size: .88rem; color: var(--muted); line-height: 1.5; margin-bottom: 1.3rem; }\
+    .hero-action-cta { font-size: .88rem; font-weight: 600; display: inline-flex; align-items: center; gap: .4rem; margin-top: auto; }\
+    .hero-action-cta-btn { background: var(--accent); color: #fff; padding: .6rem 1.2rem; border-radius: 8px; transition: background-color .15s ease; }\
+    .hero-action-primary:hover .hero-action-cta-btn { background: var(--accent-strong); }\
+    .hero-action-cta-link { color: var(--accent-strong); }\
+    .hero-action-secondary:hover .hero-action-cta-link { text-decoration: underline; }\
+    .hero-footer-links { position: relative; z-index: 1; display: flex; justify-content: center; gap: 1.6rem; margin-top: 1.8rem; }\
+    .hero-footer-link { font-size: .8rem; color: var(--muted); text-decoration: none; }\
+    .hero-footer-link:hover, .hero-footer-link:focus-visible { color: var(--accent-strong); }\
     .login-card { max-width: 420px; }\
     .login-form { display: flex; flex-direction: column; gap: .3rem; margin-top: .9rem; }\
     .field-label { font-size: .8rem; font-weight: 500; margin-top: .6rem; }\
@@ -245,8 +256,8 @@
     footer.note { margin-top: 2rem; font-size: .75rem; color: var(--muted); text-align: center; }\
     .copyright { margin: .4rem 0 0; font-size: .72rem; color: var(--muted); text-align: center; }\
     @media (max-width: 700px) { .row-2 { grid-template-columns: 1fr; } }\
-    @media (max-width: 780px) { .stats { grid-template-columns: repeat(2, 1fr); } .period { text-align: left; } .hero-hub-stops { grid-template-columns: repeat(2, 1fr); row-gap: 2rem; } }\
-    @media (max-width: 480px) { .hero-hub-stops { grid-template-columns: 1fr; } .hub-desc { max-width: none; } }\
+    @media (max-width: 780px) { .stats { grid-template-columns: repeat(2, 1fr); } .period { text-align: left; } }\
+    @media (max-width: 700px) { .hero-action-grid { grid-template-columns: 1fr; } }\
     #view-dashboard header.top { margin-bottom: 1.3rem; }\
     #view-dashboard .card, #view-dashboard .insights { padding: 1rem 1.25rem 1.1rem; margin-bottom: .8rem; }\
     #view-dashboard .stat { padding: .85rem 1rem; }\
@@ -264,7 +275,7 @@
     return '<div class="nav-menu-wrap">' +
       '<button class="hamburger-btn" type="button" aria-haspopup="true" aria-label="Navigation menu"><span></span><span></span><span></span></button>' +
       '<div class="nav-menu">' +
-        '<a href="#main">Main</a>' +
+        '<a href="#main">Home</a>' +
         '<a href="#what-are-my-courses">What are my courses?</a>' +
         '<a href="#dashboard" class="nav-heading">Training Dashboard</a>' +
         '<a href="#all-insights" class="nav-sub-link">Insights</a>' +
@@ -314,29 +325,27 @@
           </svg>\
           <div class="hero-hub-intro">\
             <h2 class="hero-hub-title">Where would you like to go?</h2>\
-            <p class="hero-hub-sub">Your courses, the training dashboard, learning resources, and support — all one click away.</p>\
+            <p class="hero-hub-sub">Check your own required training, or see how the organization is doing overall.</p>\
           </div>\
-          <div class="hero-hub-stops">\
-            <a class="hub-stop" href="#what-are-my-courses">\
-              <span class="hub-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5c2-1 5-1 8 1v13c-3-2-6-2-8-1z"/><path d="M20 5c-2-1-5-1-8 1v13c3-2 6-2 8-1z"/></svg></span>\
-              <span class="hub-label">What are my courses?</span>\
-              <span class="hub-desc">See the training assigned to your role.</span>\
+          <div class="hero-action-grid">\
+            <a class="hero-action-card hero-action-primary" href="#what-are-my-courses">\
+              <span class="hero-action-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5c2-1 5-1 8 1v13c-3-2-6-2-8-1z"/><path d="M20 5c-2-1-5-1-8 1v13c3-2 6-2 8-1z"/></svg></span>\
+              <span class="hero-action-eyebrow">Staff Self-Check</span>\
+              <span class="hero-action-title">Find My Required Courses</span>\
+              <span class="hero-action-desc">Look up mandatory and role-specific training requirements.</span>\
+              <span class="hero-action-cta hero-action-cta-btn">Check My Training <span aria-hidden="true">&rarr;</span></span>\
             </a>\
-            <a class="hub-stop" href="#dashboard">\
-              <span class="hub-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20V10"/><path d="M12 20V4"/><path d="M20 20v-7"/><path d="M2 20h20"/></svg></span>\
-              <span class="hub-label">Training Dashboard</span>\
-              <span class="hub-desc">Review completion, spend, and course performance.</span>\
+            <a class="hero-action-card hero-action-secondary" href="#dashboard">\
+              <span class="hero-action-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20V10"/><path d="M12 20V4"/><path d="M20 20v-7"/><path d="M2 20h20"/></svg></span>\
+              <span class="hero-action-eyebrow">Management Insights</span>\
+              <span class="hero-action-title">Training Dashboard</span>\
+              <span class="hero-action-desc">Monitor organizational completion rates, spend, and risk metrics.</span>\
+              <span class="hero-action-cta hero-action-cta-link">View Dashboard <span aria-hidden="true">&rarr;</span></span>\
             </a>\
-            <a class="hub-stop hub-stop-soon dummy-link" href="#">\
-              <span class="hub-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="4" width="14" height="4" rx="1"/><rect x="5" y="10" width="14" height="4" rx="1"/><rect x="5" y="16" width="14" height="4" rx="1"/></svg></span>\
-              <span class="hub-label">Learning Resources<span class="soon-badge">Soon</span></span>\
-              <span class="hub-desc">Guides and reference material for every course.</span>\
-            </a>\
-            <a class="hub-stop hub-stop-soon dummy-link" href="#">\
-              <span class="hub-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="3.2"/><path d="M12 3v5.8M12 15.2V21M3 12h5.8M15.2 12H21"/></svg></span>\
-              <span class="hub-label">Help &amp; Support<span class="soon-badge">Soon</span></span>\
-              <span class="hub-desc">Get help from the training team.</span>\
-            </a>\
+          </div>\
+          <div class="hero-footer-links">\
+            <a href="#" class="dummy-link hero-footer-link">Learning Resources<span class="soon-badge">Soon</span></a>\
+            <a href="#" class="dummy-link hero-footer-link">Help &amp; Support<span class="soon-badge">Soon</span></a>\
           </div>\
         </section>\
         <footer class="note">Synthetic sample data, generated for demonstration purposes.</footer>\
@@ -1170,6 +1179,9 @@
     });
     lastViewId = targetId;
     window.scrollTo(0, 0);
+    document.querySelectorAll('.nav-menu a[href]:not(.nav-logout-link)').forEach(function (a) {
+      a.classList.toggle('active', ROUTES[a.getAttribute('href')] === targetId);
+    });
   }
   window.addEventListener('hashchange', applyRoute);
   applyRoute();
@@ -1527,7 +1539,7 @@
     var dataJson = JSON.stringify(state).replace(/</g, '\\u003c');
     var appSrc = appMain.toString();
     return '<!doctype html>\n<html>\n<head>\n<meta charset="utf-8">\n' +
-      '<title>Meridian Training Ops</title>\n' +
+      '<title>Meridian Academy</title>\n' +
       '<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">\n' +
       '<meta http-equiv="Pragma" content="no-cache">\n' +
       '<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,500;0,9..144,600;1,9..144,500&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">\n' +
