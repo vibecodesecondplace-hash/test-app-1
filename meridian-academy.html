@@ -105,12 +105,9 @@
     .hero-hub-title { font-family: "Fraunces", Georgia, serif; font-weight: 600; font-size: clamp(1.35rem, 2.4vw, 1.65rem); margin: 0 0 .5rem; text-wrap: balance; letter-spacing: -.005em; }\
     .hero-hub-sub { font-size: .92rem; color: var(--muted); margin: 0; line-height: 1.5; }\
     .hero-action-grid { position: relative; z-index: 1; display: grid; grid-template-columns: 1fr 1fr; gap: 1.75rem; }\
-    .hero-action-card { display: flex; flex-direction: column; align-items: flex-start; text-align: left; text-decoration: none; color: var(--ink); padding: 1.8rem 1.9rem; border-radius: 16px; transition: transform .15s ease, box-shadow .15s ease, border-color .15s ease, background-color .15s ease; }\
+    .hero-action-card { display: flex; flex-direction: column; align-items: flex-start; text-align: left; text-decoration: none; color: var(--ink); padding: 1.8rem 1.9rem; border-radius: 16px; background: var(--surface); border: 1px solid var(--border); box-shadow: var(--shadow); transition: transform .15s ease, border-color .15s ease; }\
+    .hero-action-card:hover, .hero-action-card:focus-visible { transform: translateY(-3px); border-color: var(--accent); }\
     .hero-action-card:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }\
-    .hero-action-primary { background: var(--surface); border: 1px solid var(--accent); box-shadow: var(--shadow); }\
-    .hero-action-primary:hover, .hero-action-primary:focus-visible { transform: translateY(-3px); }\
-    .hero-action-secondary { background: transparent; border: 1px solid var(--border); }\
-    .hero-action-secondary:hover, .hero-action-secondary:focus-visible { border-color: var(--accent); background: var(--surface); }\
     .hero-action-icon { width: 58px; height: 58px; border-radius: 14px; display: flex; align-items: center; justify-content: center; margin-bottom: 1.1rem; }\
     .hero-action-icon svg { width: 28px; height: 28px; }\
     .hero-action-primary .hero-action-icon { background: var(--accent); color: #fff; }\
@@ -118,14 +115,11 @@
     .hero-action-eyebrow { font-family: "IBM Plex Mono", ui-monospace, monospace; font-size: .68rem; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); margin-bottom: .5rem; }\
     .hero-action-title { font-family: "Fraunces", Georgia, serif; font-weight: 600; font-size: 1.35rem; margin-bottom: .5rem; text-wrap: balance; letter-spacing: -.01em; }\
     .hero-action-desc { font-size: .88rem; color: var(--muted); line-height: 1.5; margin-bottom: 1.3rem; }\
-    .hero-action-cta { font-size: .88rem; font-weight: 600; display: inline-flex; align-items: center; gap: .4rem; margin-top: auto; }\
-    .hero-action-cta-btn { background: var(--accent); color: #fff; padding: .6rem 1.2rem; border-radius: 8px; transition: background-color .15s ease; }\
-    .hero-action-primary:hover .hero-action-cta-btn { background: var(--accent-strong); }\
-    .hero-action-cta-link { color: var(--accent-strong); }\
-    .hero-action-secondary:hover .hero-action-cta-link { text-decoration: underline; }\
-    .hero-footer-links { position: relative; z-index: 1; display: flex; justify-content: center; gap: 1.6rem; margin-top: 1.8rem; }\
-    .hero-footer-link { font-size: .8rem; color: var(--muted); text-decoration: none; }\
-    .hero-footer-link:hover, .hero-footer-link:focus-visible { color: var(--accent-strong); }\
+    .hero-action-cta { font-size: .88rem; font-weight: 600; display: inline-flex; align-items: center; gap: .4rem; margin-top: auto; padding: .6rem 1.2rem; border-radius: 8px; transition: background-color .15s ease, color .15s ease; }\
+    .hero-action-cta-btn { background: var(--accent); color: #fff; border: 1px solid transparent; }\
+    .hero-action-card:hover .hero-action-cta-btn { background: var(--accent-strong); }\
+    .hero-action-cta-outline { background: transparent; color: var(--accent-strong); border: 1px solid var(--accent); }\
+    .hero-action-card:hover .hero-action-cta-outline { background: var(--accent-soft); }\
     .login-card { max-width: 420px; }\
     .login-form { display: flex; flex-direction: column; gap: .3rem; margin-top: .9rem; }\
     .field-label { font-size: .8rem; font-weight: 500; margin-top: .6rem; }\
@@ -324,8 +318,8 @@
             <circle cx="50" cy="440" r="50" fill="var(--amber-soft)" opacity="0.4"/>\
           </svg>\
           <div class="hero-hub-intro">\
-            <h2 class="hero-hub-title">Where would you like to go?</h2>\
-            <p class="hero-hub-sub">Check your own required training, or see how the organization is doing overall.</p>\
+            <h2 class="hero-hub-title">Welcome to Meridian Academy</h2>\
+            <p class="hero-hub-sub">Select an option below to check your role requirements or access organizational analytics.</p>\
           </div>\
           <div class="hero-action-grid">\
             <a class="hero-action-card hero-action-primary" href="#what-are-my-courses">\
@@ -340,12 +334,8 @@
               <span class="hero-action-eyebrow">Management Insights</span>\
               <span class="hero-action-title">Training Dashboard</span>\
               <span class="hero-action-desc">Monitor organizational completion rates, spend, and risk metrics.</span>\
-              <span class="hero-action-cta hero-action-cta-link">View Dashboard <span aria-hidden="true">&rarr;</span></span>\
+              <span class="hero-action-cta hero-action-cta-outline">View Dashboard <span aria-hidden="true">&rarr;</span></span>\
             </a>\
-          </div>\
-          <div class="hero-footer-links">\
-            <a href="#" class="dummy-link hero-footer-link">Learning Resources<span class="soon-badge">Soon</span></a>\
-            <a href="#" class="dummy-link hero-footer-link">Help &amp; Support<span class="soon-badge">Soon</span></a>\
           </div>\
         </section>\
         <footer class="note">Synthetic sample data, generated for demonstration purposes.</footer>\
