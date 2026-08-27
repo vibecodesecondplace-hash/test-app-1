@@ -296,8 +296,8 @@
     opts = opts || {};
     var links = '';
     if (opts.includeHome) links += '<a href="#main">Home</a>';
-    if (!opts.omitCourses) links += '<a href="#what-are-my-courses">What are my courses?</a>';
-    if (!opts.omitDashboard) links += '<a href="#dashboard">Training Dashboard</a>';
+    links += '<a href="#what-are-my-courses">What are my courses?</a>';
+    links += '<a href="#dashboard">Training Dashboard</a>';
     links += '<a href="#" class="dummy-link">Learning Resources<span class="soon-badge">Soon</span></a>';
     links += '<a href="#" class="dummy-link">Help &amp; Support<span class="soon-badge">Soon</span></a>';
     return '<nav class="top-links">' + links + '</nav>';
@@ -307,8 +307,6 @@
     var nav = navMenuMarkup();
     var topLinks = topLinksMarkup({ includeHome: true });
     var topLinksNoHome = topLinksMarkup({ includeHome: false });
-    var topLinksCourses = topLinksMarkup({ includeHome: true, omitCourses: true });
-    var topLinksDashboard = topLinksMarkup({ includeHome: true, omitDashboard: true });
     var copyright = '<p class="copyright">&copy; <span class="copyright-year"></span> Meridian Academy. All rights reserved.</p>';
     return '\
       <div class="page" id="view-main">\
@@ -359,7 +357,7 @@
             </div>\
           </div>\
         </header>\
-        ' + topLinksCourses + '\
+        ' + topLinks + '\
         <div class="card">\
           <h2>Find your required training</h2>\
           <p class="sub">Enter your job role to see the courses assigned to it. Results are looked up from the role-to-course table in the training database.</p>\
@@ -412,7 +410,7 @@
           </div>\
           <div class="period">As of <strong>' + fmtDate(new Date()) + '</strong><br>Synthetic sample data for illustration</div>\
         </header>\
-        ' + topLinksDashboard + '\
+        ' + topLinks + '\
         <nav class="section-nav" aria-label="Dashboard sections">\
           <a href="#stats">Overview</a>\
           <a href="#insights-section">Insights</a>\
