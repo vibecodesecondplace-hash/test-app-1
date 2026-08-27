@@ -306,7 +306,6 @@
   function bodyMarkup() {
     var nav = navMenuMarkup();
     var topLinks = topLinksMarkup({ includeHome: true });
-    var topLinksNoHome = topLinksMarkup({ includeHome: false });
     var copyright = '<p class="copyright">&copy; <span class="copyright-year"></span> Meridian Academy. All rights reserved.</p>';
     return '\
       <div class="page" id="view-main">\
@@ -315,7 +314,7 @@
           <h1 class="brand-logo">Meridian Academy</h1>\
           <div></div>\
         </header>\
-        ' + topLinksNoHome + '\
+        ' + topLinks + '\
         <section class="hero-hub" aria-label="Quick access">\
           <svg class="hero-hub-ambient" viewBox="0 0 1200 480" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">\
             <circle cx="90" cy="60" r="70" fill="var(--accent-soft)" opacity="0.5"/>\
